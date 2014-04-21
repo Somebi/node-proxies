@@ -5,13 +5,12 @@ var url     = require('url');
 
 var scrapeProxies = function (next) {
   var addProxies = function(window, next) {
-    window.$('td:contains(":")').toArray().forEach(function(td) {
-      var text = window.$(td).text();
-      var match = /^([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+)$/.exec(text);
-      if (match) {
-        proxies.push('http://'+text);
-      }
-    });
+    var text=window.$('td:contains(":")').text();
+    var reg = /([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+)/g;
+    var proxy;
+    while(proxy=reg.exec(text)) {
+      proxies.push('http://'+proxy[0]);
+    }
     next();
   };
 
@@ -103,6 +102,6 @@ module.exports = function(next) {
       });
     }
   } else {
-    next(validatedProxies[Math.floor(Math.random()*validatedProxies.length)]);
+    next(validatedProxies);
   }
 };
