@@ -11,10 +11,12 @@ Use this package if you want to make use of freely available HTTP proxy servers 
     var proxies = require('proxies');
     var request = require('request');
 
-    proxies(function(aRandomProxyUrl) {
-      request.get({url: "http://www.google.com", proxy: aRandomProxyUrl}, function(error, response, body) {
-        // ...
-      });
+    proxies(function(list) {
+      for(var i in list){
+          request.get({url: "http://www.google.com", proxy: list[i]}, function(error, response, body) {
+            // ...
+          });
+      }
     });
 
 # Notes
